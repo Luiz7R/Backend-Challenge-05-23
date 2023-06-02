@@ -61,6 +61,7 @@ class ImportarOpenFoodFactsDados extends Command
             }
 
             gzclose($ponteiroGZ);
+            unlink($destinoArquivo . '.gz');
 
             $produtosJson = str_replace('"\\', '', $produtosJson);
         }
