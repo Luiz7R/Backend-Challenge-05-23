@@ -1,0 +1,80 @@
+###############################################################################
+#                          Generated on phpdocker.io                          #
+###############################################################################
+version: '3.1'
+services:
+    memcached:
+        image: 'memcached:alpine'
+
+    mysql:
+        image: 'mysql:8.0'
+        working_dir: /application
+        volumes:
+            - '.:/application'
+        environment:
+            - MYSQL_ROOT_PASSWORD=secret
+            - MYSQL_DATABASE=ProductsFood
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=secret
+        ports:
+            - '8002:3306'
+
+    elasticsearch:
+        image: 'elasticsearch:6.5.4'
+        container_name: elasticsearch
+        environment:
+            - discovery.type=single-node
+        ports:
+            - 9200:9200
+            - 9300:9300
+
+    webserver:
+        image: 'nginx:alpine'
+        container_name: nginx
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - './phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf'
+        ports:
+            - '8000:80'
+
+    php-fpm:
+        build: phpdocker/php-fpm
+        container_name: php-fpm
+        working_dir: /application
+        volumes:
+            - '.:/application'
+            - './phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini'
+
+    composer:
+        container_name: composer
+        image: composer/composer
+        volumes:
+        - ./src/BackendChallenger:/usr/local/apache2/htdocs/BackendChallenger
+        working_dir: /usr/local/apache2/htdocs/BackendChallenger
+        command: install
+
+    mongo: 
+        image: mongo
+        container_name: mongo-test
+        restart: always
+        ports:
+        - 27017:27017
+        environment:
+        - MONGO_INIT_DB_ROOT_USERNAME=root
+        - MONGO_INIT_DB_ROOT_PASSWORD=example
+        #command: mongod --auth
+    
+    mongo-express: 
+        image: mongo-express
+        container_name: mongo-express-test
+        restart: unless-stopped
+        ports:
+        - 8081:8081
+        environment:
+        - ME_CONFIG_MONGODB_SERVER=mongo
+        - ME_CONFIG_MONGODB_PORT=27017
+        - ME_CONFIG_BASICAUTH_USERNAME=root
+        - ME_CONFIG_BASICAUTH_PASSWORD=example
+        - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
+
