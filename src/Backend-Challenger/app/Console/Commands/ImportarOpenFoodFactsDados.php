@@ -58,8 +58,6 @@ class ImportarOpenFoodFactsDados extends Command
                 }
                 
                 array_push($produtosJson, $linha);
-                $jsonFilePath = storage_path('app/'.$destinoArquivo);
-                file_put_contents($jsonFilePath, $produtosJson);
             }
 
             gzclose($ponteiroGZ);
