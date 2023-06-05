@@ -16,12 +16,15 @@ class ProductService
 
     public function all()
     {
-        return $this->model->all();
+        return $this->model->where('status','!=','trash')->get();
     }
 
     public function find($code)
     {
-        return $this->model->where('code', $code)->get();
+        return $this->model->where([
+            ['code', $code],
+            ['status', '!=', 'trash']
+        ])->get();
     }
 
     public function updateOrCreate(array $attributes, array $values = [])
@@ -58,7 +61,7 @@ class ProductService
             return false;
         }
 
-        return $product->delete();
+        return $product->update(['status' => 'trash']);
     }
 
     public function search(array $data)
