@@ -70,7 +70,11 @@ GET|HEAD |   api/search             | search ›           | ProductsController@
 
 ```
 
+### Rodar o projeto:
 
+```
+php artisan serve
+```
 
 ## Endpoints do Postman no repositório ou no Link abaixo::
 
