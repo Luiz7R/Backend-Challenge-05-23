@@ -113,5 +113,5 @@ php artisan import:openfoodfacts
 
 * Diferencial 5: Escrever Unit Tests para os endpoints  GET e PUT do CRUD;
 
-* Diferencial 6: Escrever um esquema de segurança utilizando API KEY nos endpoints. Ref: https://learning.postman.com/docs/sending-requests/authorization/#api-key
+* Diferencial 6: Escrever um esquema de segurança utilizando API KEY nos endpoints. Ref: https://learning.postman.com/docs/sending-requests/authorization/#api-key, no arquivo do postman já vem configurado, tem a header ```X-API-KEY``` com o valor da configuração no arquivo .env.example chamado: ```API_KEY_FOODFACTS```, sem a api-key é barrado pelo middleware
 
